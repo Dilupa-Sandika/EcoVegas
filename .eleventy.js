@@ -1,4 +1,5 @@
 // .eleventy.js
+const markdownIt = require("markdown-it");
 
 module.exports = function(eleventyConfig) {
 
@@ -13,6 +14,17 @@ module.exports = function(eleventyConfig) {
   });
 
   // =================================================================
+  // MARKDOWNIFY FILTER (අලුතෙන් එකතු කළේ)
+  // =================================================================
+  // Front matter එකේ තියෙන Markdown text, HTML බවට පත්කරන්න
+  const md = new markdownIt({
+    html: true,
+  });
+  eleventyConfig.addFilter("markdownify", (content) => {
+    return md.render(content);
+  });
+
+  // =================================================================
   // POSTS COLLECTION
   // =================================================================
   eleventyConfig.addCollection("posts", function(collectionApi) {
@@ -22,14 +34,12 @@ module.exports = function(eleventyConfig) {
   // =================================================================
   // PASSTHROUGH COPY
   // =================================================================
-  // අපි posts folder එක ඇතුළේ තියෙන හැම image එකක්ම _site එකට copy කරනවා
-  // මේකෙන් song folder එක ඇතුළේ තියෙන album art copy වෙනවා.
   eleventyConfig.addPassthroughCopy("posts/**/*.{jpg,jpeg,png,gif,webp,svg}");
 
 
   // =================================================================
   // ELEVENTY CONFIGURATION RETURN
-  // =================================S================================
+  // =================================================================
   return {
     dir: {
       input: ".",
@@ -39,5 +49,4 @@ module.exports = function(eleventyConfig) {
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
   };
-
 };

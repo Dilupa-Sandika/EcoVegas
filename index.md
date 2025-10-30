@@ -32,9 +32,9 @@ title: "Home"
         <a href="{{ post.url }}" class="block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02]">
             
             <div class="w-full h-48 sm:h-56 relative">
-                {# Album art path එක වෙනස් වෙනවා #}
+                {# ⭐️⭐️⭐️ Path එක මෙතන වෙනස් වුණා ⭐️⭐️⭐️ #}
                 <img 
-                    src="{{ post.url | url }}/cover.jpg"  {# <-- මෙතන වෙනස් වුණා: post.url / cover.jpg #}
+                    src="{{ post.url | url }}../cover.jpg"  {# <-- අලුත් path එක: ../cover.jpg #}
                     alt="{{ post.data.title }} Album Art" 
                     class="w-full h-full object-cover"
                 >

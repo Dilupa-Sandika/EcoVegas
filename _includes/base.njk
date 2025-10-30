@@ -22,7 +22,13 @@
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        {{ content | safe }}
+        {# 
+          මෙතන තමයි වැදගත්ම වෙනස. 
+          අපි 'content' කියලා block එකක් හැදුවා. 
+        #}
+        {% block content %}
+          {{ content | safe }}
+        {% endblock %}
     </main>
 
     <footer class="mt-16 border-t border-slate-800">
