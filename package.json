@@ -1,17 +1,28 @@
 {
   "name": "ecovegas",
   "version": "1.0.0",
-  "description": "",
+  "description": "World-class lyrics website",
   "main": "index.js",
   "scripts": {
-    "start": "eleventy --serve",
-    "build": "eleventy"
+    "watch:eleventy": "eleventy --serve",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./_site/css/style.css --watch",
+    "start": "concurrently \"npm:watch:css\" \"npm:watch:eleventy\"",
+    "build": "NODE_ENV=production eleventy && NODE_ENV=production tailwindcss -i ./src/input.css -o ./_site/css/style.css --minify"
   },
-  "keywords": [],
+  "keywords": [
+    "lyrics",
+    "jamstack",
+    "eleventy",
+    "tailwindcss"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
-    "tailwindcss": "^4.1.16"
+    "@tailwindcss/typography": "^0.5.13",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
   }
 }

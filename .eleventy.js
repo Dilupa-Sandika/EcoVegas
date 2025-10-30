@@ -5,10 +5,6 @@ module.exports = function(eleventyConfig) {
   // =================================================================
   // YOUTUBE EMBED URL FILTER
   // =================================================================
-  // මේකෙන් කරන්නේ ඔයා markdown file එකේ දෙන සම්පූර්ණ YouTube URL එකෙන්
-  // Video ID එක විතරක් අඳුරගෙන එළියට දෙන එක.
-  // උදා: https://www.youtube.com/watch?v=dQw4w9WgXcQ -> dQw4w9WgXcQ
-  // මේ filter එක අපි post.njk එකේදී පාවිච්චි කරනවා.
   eleventyConfig.addFilter("youtubeEmbedUrl", (url) => {
     if (!url) return "";
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -19,26 +15,27 @@ module.exports = function(eleventyConfig) {
   // =================================================================
   // POSTS COLLECTION
   // =================================================================
-  // 'posts' කියන folder එක ඇතුලේ තියෙන bütün .md files ටික
-  // 'posts' නමින් collection එකක් (කාණ්ඩයක්) විදියට හඳුන්වලා දෙනවා.
-  // මේක homepage එකේදී bütün සිංදු list කරන්න අවශ්‍ය වෙනවා.
   eleventyConfig.addCollection("posts", function(collectionApi) {
-    // 'posts' folder එකේ තියෙන markdown files විතරක් අරගන්න
-    return collectionApi.getFilteredByGlob("posts/**/*.md").reverse(); // .reverse() එකෙන් අලුතින්ම දාපු post එක උඩින්ම පෙන්නනවා
+    return collectionApi.getFilteredByGlob("posts/**/*.md").reverse();
   });
+
+  // =================================================================
+  // PASSTHROUGH COPY
+  // =================================================================
+  // අපි posts folder එක ඇතුළේ තියෙන හැම image එකක්ම _site එකට copy කරනවා
+  // මේකෙන් song folder එක ඇතුළේ තියෙන album art copy වෙනවා.
+  eleventyConfig.addPassthroughCopy("posts/**/*.{jpg,jpeg,png,gif,webp,svg}");
 
 
   // =================================================================
   // ELEVENTY CONFIGURATION RETURN
-  // =================================================================
-  // 11ty එකට කියනවා අපේ project එකේ files තියෙන්නේ කොහෙද කියලා.
+  // =================================S================================
   return {
     dir: {
-      input: ".",          // මුළු project folder එකම input එක
-      includes: "_includes", // Layouts වගේ දේවල් තියෙන folder එක
-      output: "_site",     // Website එක build වුණාම එන files තියෙන තැන
+      input: ".",
+      includes: "_includes",
+      output: "_site",
     },
-    // .md files වලටත් Nunjucks template language එක පාවිච්චි කරන්න කියනවා
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
   };

@@ -1,13 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>{{ title }} | Echo Lyrics</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="bg-slate-900 text-slate-200 font-sans antialiased">
 
-{{ content | safe }}
+    <header class="sticky top-0 z-50 bg-slate-800/70 backdrop-blur-lg shadow-md">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-black text-white tracking-tight">
+                <span class="text-indigo-400">Echo</span>Lyrics
+            </a>
+            </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        {{ content | safe }}
+    </main>
+
+    <footer class="mt-16 border-t border-slate-800">
+        <div class="container mx-auto px-4 py-8 text-center text-slate-500">
+            <p>&copy; 2025 Echo Lyrics. All rights reserved.</p>
+            <p class="text-sm">Built with Eleventy & Tailwind CSS</p>
+        </div>
+    </footer>
 
 </body>
 </html>
