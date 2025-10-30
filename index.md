@@ -29,26 +29,33 @@ title: "Home"
 <div id="songList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {%- for post in collections.posts -%}
     <div class="song-item group" data-title="{{ post.data.title | lower }}" data-singer="{{ post.data.singer | lower }}" data-lang="{{ post.data.language | lower }}">
-        <a href="{{ post.url }}" class="block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02]">
+        <div class="block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02]">
             
-            <div class="w-full h-48 sm:h-56 relative">
-                {# ⭐️⭐️⭐️ Path එක මෙතන වෙනස් වුණා ⭐️⭐️⭐️ #}
-                <img 
-                    src="{{ post.url | url }}../cover.jpg"  {# <-- අලුත් path එක: ../cover.jpg #}
-                    alt="{{ post.data.title }} Album Art" 
-                    class="w-full h-full object-cover"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+            <a href="{{ post.url | url }}">
+                <div class="w-full h-48 sm:h-56 relative">
+                    <img 
+                        src="{{ post.url | url }}../cover.jpg"
+                        alt="{{ post.data.title }} Album Art" 
+                        class="w-full h-full object-cover"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    </div>
                 </div>
-            </div>
+            </a>
 
             <div class="p-4">
-                <h3 class="text-xl font-bold text-white truncate group-hover:text-indigo-400 transition-colors">{{ post.data.title }}</h3>
-                <p class="text-slate-400 truncate">{{ post.data.singer }}</p>
+                <a href="{{ post.url | url }}">
+                    <h3 class="text-xl font-bold text-white truncate group-hover:text-indigo-400 transition-colors">{{ post.data.title }}</h3>
+                </a>
+                
+                {# ⭐️⭐️⭐️ මෙන්න වෙනස් කරපු තැන ⭐️⭐️⭐️ #}
+                <a href="/singers/{{ post.data.singer | slugify }}/" class="text-slate-400 truncate hover:text-indigo-400 hover:underline">
+                    {{ post.data.singer }}
+                </a>
             </div>
-        </a>
+        </div>
     </div>
     {%- endfor -%}
 </div>
@@ -88,7 +95,6 @@ title: "Home"
                 }
             });
 
-            // Show or hide the "No Results" message
             if (visibleCount === 0) {
                 noResults.style.display = 'block';
             } else {
@@ -96,7 +102,6 @@ title: "Home"
             }
         }
 
-        // Add event listeners
         searchInput.addEventListener('keyup', filterSongs);
         langFilter.addEventListener('change', filterSongs);
     });

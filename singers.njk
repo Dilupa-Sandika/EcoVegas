@@ -1,0 +1,17 @@
+---
+# 1. අපි .eleventy.js එකේ හදපු collection එකෙන් data ගන්නවා
+pagination:
+  data: collections.songsBySinger
+  size: 1
+  alias: singer # එක item එකක් 'singer' කියලා නම් කරනවා
+
+# 2. Page එකේ URL එක හදන විදිහ
+# උදා: /singers/taylor-swift/
+permalink: "/singers/{{ singer.singerName | slugify }}/"
+
+# 3. මේ page එකට පාවිච්චි කරන layout එක
+layout: "singer.njk"
+
+# 4. මේ file එක homepage එකේ list වෙන්න එපා කියලා කියනවා
+eleventyExcludeFromCollections: true
+---
