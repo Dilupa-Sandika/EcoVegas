@@ -1,0 +1,77 @@
+{# _includes/post.njk #}
+
+<article class="post-layout">
+
+  {# ගීතයේ මාතෘකාව සහ මූලික විස්තර #}
+  <header class="post-header">
+    <h1 class="post-title">{{ title }}</h1>
+    <div class="post-meta">
+      <p><strong>ගායකයා/ගායිකාව:</strong> {{ singer }}</p>
+      <p><strong>පද රචනය:</strong> {{ writer }}</p>
+      <p><strong>සංගීතය:</strong> {{ music }}</p>
+      <p><strong>භාෂාව:</strong> {{ language }}</p>
+      <p><strong>ප්‍රවර්ගය:</strong> {{ category }}</p>
+    </div>
+  </header>
+
+  {# Tags ටික ලස්සනට පෙන්නන්න #}
+  {% if tags %}
+    <div class="tags-container">
+      {% for tag in tags %}
+        <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# YouTube Videos Embed කරන කොටස #}
+  {# 'youtube_song' කියන field එකේ URL එකක් තිබුනොත් විතරක් මේ කොටස පෙන්නනවා #}
+  {% if youtube_song %}
+    <div class="video-container">
+      <h2>Official Song</h2>
+      {# මෙතනදී තමයි අපි .eleventy.js එකේ හදපු 'youtubeEmbedUrl' filter එක පාවිච්චි කරන්නේ #}
+      <iframe 
+        src="https://www.youtube.com/embed/{{ youtube_song | youtubeEmbedUrl }}" 
+        title="YouTube video player for {{ title }}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  {% endif %}
+
+  {# 'youtube_karaoke' කියන field එකේ URL එකක් තිබුනොත් විතරක් මේ කොටස පෙන්නනවා #}
+  {% if youtube_karaoke %}
+    <div class="video-container">
+      <h2>Karaoke Version</h2>
+      <iframe 
+        src="https://www.youtube.com/embed/{{ youtube_karaoke | youtubeEmbedUrl }}" 
+        title="YouTube karaoke video for {{ title }}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  {% endif %}
+
+  <hr>
+
+  {# Markdown file එකේ front matter එකට පස්සේ ඔයා type කරන content එක මෙතන පෙන්නනවා #}
+  {# 'safe' filter එක දාන්නේ HTML tags (<h2>, <p> වගේ) හරියටම render වෙන්න #}
+  <div class="post-content">
+    {{ content | safe }}
+  </div>
+
+</article>
+
+{# පොඩි CSS ටිකක් එකතු කරගත්තොත් මේක තවත් ලස්සන කරගන්න පුළුවන් #}
+<style>
+  .post-layout { max-width: 800px; margin: 2rem auto; padding: 1rem; }
+  .post-header { margin-bottom: 2rem; }
+  .post-title { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .post-meta p { margin: 0.25rem 0; color: #555; }
+  .tags-container { margin-bottom: 2rem; }
+  .tag { background-color: #eee; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; margin-right: 0.5rem;}
+  .video-container { position: relative; width: 100%; padding-bottom: 56.25%; /* 16:9 Aspect Ratio */ height: 0; margin-bottom: 2rem;}
+  .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .post-content { line-height: 1.7; }
+</style>
