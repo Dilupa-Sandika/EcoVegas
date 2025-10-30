@@ -1,13 +1,19 @@
-{%- set layout = "base.njk" -%} {# This tells Eleventy to use base.njk as the main layout #}
+---
+layout: base.njk
+---
+{# 
+  මම උඩින් front matter එකක් add කරා. 
+  {%- set layout = "base.njk" -%} කියන පරණ line එක මම අයින් කරා.
+  මේකෙන් තමයි 11ty එකට හරියටම කියන්නේ "මේ post.njk layout එක base.njk layout එක ඇතුළට දාන්න" කියලා. 
+#}
 
 <article class="post-layout max-w-6xl mx-auto">
 
     <header class="post-header flex flex-col md:flex-row gap-8 mb-12">
         
         <div class="md:w-1/3 flex-shrink-0">
-            {# Album art path එක වෙනස් වෙනවා #}
             <img 
-                src="{{ page.url | url }}/cover.jpg" {# <-- මෙතන වෙනස් වුණා: page.url / cover.jpg #}
+                src="{{ page.url | url }}/cover.jpg"
                 alt="{{ title }} Album Art" 
                 class="w-full rounded-lg shadow-2xl object-cover aspect-square"
             >
@@ -74,7 +80,7 @@
     <div class="post-content max-w-3xl mx-auto">
         {# 'prose' class එකෙන් lyrics ටික ලස්සනට format කරනවා #}
         <div class="prose prose-lg prose-invert">
-            {{ content | safe }}
+            {{ content | safe }}  {# <-- මේකෙන් තමයි ඔයාගෙ lyrics ටික පෙන්නන්නේ #}
         </div>
     </div>
 
