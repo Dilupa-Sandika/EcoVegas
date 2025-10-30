@@ -1,14 +1,11 @@
 // .eleventy.js
 const markdownIt = require("markdown-it");
-
-// ⭐️⭐️⭐️ මෙන්න මේ line එක තමයි හදන්න ඕන ⭐️⭐️⭐️
-// අපි @11ty/eleventy-utils වෙනුවට @sindresorhus/slugify පාවිච්චි කරනවා
 const slugify = require("@sindresorhus/slugify");
 
 module.exports = function(eleventyConfig) {
 
   // =================================================================
-  // YOUTUBE EMBED URL FILTER
+  // FILTERS (Youtube, Markdown, Slugify)
   // =================================================================
   eleventyConfig.addFilter("youtubeEmbedUrl", (url) => {
     if (!url) return "";
@@ -17,9 +14,6 @@ module.exports = function(eleventyConfig) {
     return (match && match[2].length === 11) ? match[2] : null;
   });
 
-  // =================================================================
-  // MARKDOWNIFY FILTER
-  // =================================================================
   const md = new markdownIt({
     html: true,
   });
@@ -27,15 +21,10 @@ module.exports = function(eleventyConfig) {
     return md.render(content);
   });
 
-  // =================================================================
-  // SLUGIFY FILTER
-  // =================================================================
-  // දැන් මේ filter එක 100% වැඩ කරනවා
   eleventyConfig.addFilter("slugify", (str) => {
     if (!str) {
       return;
     }
-    // "Taylor Swift" -> "taylor-swift"
     return slugify(str, {
       lower: true,
       strict: true,
@@ -44,33 +33,73 @@ module.exports = function(eleventyConfig) {
   });
 
   // =================================================================
-  // POSTS COLLECTION
+  // COLLECTIONS
   // =================================================================
   eleventyConfig.addCollection("posts", function(collectionApi) {
     return collectionApi.getFilteredByGlob("posts/**/*.md").reverse();
   });
 
-  // =================================================================
-  // SONGS BY SINGER COLLECTION
-  // =================================================================
   eleventyConfig.addCollection("songsBySinger", (collectionApi) => {
     const posts = collectionApi.getFilteredByGlob("posts/**/*.md");
     const singers = {};
-
     posts.forEach((post) => {
       const singerName = post.data.singer;
       if (!singerName) return;
-
       if (!singers[singerName]) {
         singers[singerName] = [];
       }
       singers[singerName].push(post);
     });
-
     return Object.keys(singers).map((singerName) => {
       return {
         singerName: singerName,
         songs: singers[singerName].sort((a, b) => new Date(b.date) - new Date(a.date))
+      };
+    });
+  });
+
+  // ⭐️⭐️⭐️ අලුතෙන් එකතු කළේ ⭐️⭐️⭐️
+  // =================================================================
+  // SONGS BY LANGUAGE COLLECTION
+  // =================================================================
+  eleventyConfig.addCollection("songsByLanguage", (collectionApi) => {
+    const posts = collectionApi.getFilteredByGlob("posts/**/*.md");
+    const languages = {};
+    posts.forEach((post) => {
+      const languageName = post.data.language;
+      if (!languageName) return;
+      if (!languages[languageName]) {
+        languages[languageName] = [];
+      }
+      languages[languageName].push(post);
+    });
+    return Object.keys(languages).map((languageName) => {
+      return {
+        languageName: languageName,
+        songs: languages[languageName].sort((a, b) => new Date(b.date) - new Date(a.date))
+      };
+    });
+  });
+
+  // ⭐️⭐️⭐️ අලුතෙන් එකතු කළේ ⭐️⭐️⭐️
+  // =================================================================
+  // SONGS BY CATEGORY COLLECTION
+  // =================================================================
+  eleventyConfig.addCollection("songsByCategory", (collectionApi) => {
+    const posts = collectionApi.getFilteredByGlob("posts/**/*.md");
+    const categories = {};
+    posts.forEach((post) => {
+      const categoryName = post.data.category;
+      if (!categoryName) return;
+      if (!categories[categoryName]) {
+        categories[categoryName] = [];
+      }
+      categories[categoryName].push(post);
+    });
+    return Object.keys(categories).map((categoryName) => {
+      return {
+        categoryName: categoryName,
+        songs: categories[categoryName].sort((a, b) => new Date(b.date) - new Date(a.date))
       };
     });
   });

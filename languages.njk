@@ -1,0 +1,14 @@
+---
+# 'songsByLanguage' collection එකෙන් data ගන්නවා
+pagination:
+  data: collections.songsByLanguage
+  size: 1
+  alias: language # එක item එකක් 'language' කියලා නම් කරනවා
+
+# URL එක හදන විදිහ (උදා: /language/sinhala/)
+permalink: "/language/{{ language.languageName | slugify }}/"
+
+# Layout එක
+layout: "language.njk"
+eleventyExcludeFromCollections: true
+---

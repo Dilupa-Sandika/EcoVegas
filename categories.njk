@@ -1,0 +1,14 @@
+---
+# 'songsByCategory' collection එකෙන් data ගන්නවා
+pagination:
+  data: collections.songsByCategory
+  size: 1
+  alias: category # එක item එකක් 'category' කියලා නම් කරනවා
+
+# URL එක හදන විදිහ (උදා: /category/classic/)
+permalink: "/category/{{ category.categoryName | slugify }}/"
+
+# Layout එක
+layout: "category.njk"
+eleventyExcludeFromCollections: true
+---
