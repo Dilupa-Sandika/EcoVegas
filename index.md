@@ -33,8 +33,9 @@ title: "Home"
             
             <a href="{{ post.url | url }}">
                 <div class="w-full h-48 sm:h-56 relative">
+                    {# ⭐️⭐️⭐️ IMAGE PATH FIX ⭐️⭐️⭐️ #}
                     <img 
-                        src="{{ post.url | url }}../cover.jpg"
+                        src="{{ (post.url | url ~ '../' ~ (post.data.cover_image | default('cover.jpg'))) | url }}"
                         alt="{{ post.data.title }} Album Art" 
                         class="w-full h-full object-cover"
                     >
@@ -49,8 +50,6 @@ title: "Home"
                 <a href="{{ post.url | url }}">
                     <h3 class="text-xl font-bold text-white truncate group-hover:text-indigo-400 transition-colors">{{ post.data.title }}</h3>
                 </a>
-                
-                {# ⭐️⭐️⭐️ මෙන්න වෙනස් කරපු තැන ⭐️⭐️⭐️ #}
                 <a href="/singers/{{ post.data.singer | slugify }}/" class="text-slate-400 truncate hover:text-indigo-400 hover:underline">
                     {{ post.data.singer }}
                 </a>

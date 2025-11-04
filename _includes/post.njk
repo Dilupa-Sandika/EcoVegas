@@ -3,46 +3,37 @@
 {% block content %}
 
 <article class="post-layout max-w-6xl mx-auto">
-
     <header class="post-header flex flex-col md:flex-row gap-8 mb-12">
-        
         <div class="md:w-1/3 flex-shrink-0">
+            {# ⭐️⭐️⭐️ IMAGE PATH FIX ⭐️⭐️⭐️ #}
+            {# Nunjucks syntax එක fix කරා: එක block එකක් ඇතුළේ path එක හැදුවා #}
             <img 
-                src="../cover.jpg"
+                src="{{ (page.url | url ~ '../' ~ (cover_image | default('cover.jpg'))) | url }}"
                 alt="{{ title }} Album Art" 
                 class="w-full rounded-lg shadow-2xl object-cover aspect-square"
             >
         </div>
-
         <div class="md:w-2/3 flex flex-col justify-center">
             <h1 class="post-title text-4xl lg:text-6xl font-black text-white mb-4">{{ title }}</h1>
-            
             <div class="post-meta grid grid-cols-2 gap-x-4 gap-y-2 text-lg mb-6">
-                
                 <p><strong>Singer:</strong> 
                     <a href="/singers/{{ singer | slugify }}/" class="text-indigo-400 hover:underline">
                         {{ singer }}
                     </a>
                 </p>
-                
                 <p><strong>Lyrics:</strong> <span class="text-slate-400">{{ writer }}</span></p>
                 <p><strong>Music:</strong> <span class="text-slate-400">{{ music }}</span></p>
-
-                {# ⭐️⭐️⭐️ මෙන්න වෙනස් කරපු තැන ⭐️⭐️⭐️ #}
                 <p><strong>Language:</strong> 
                     <a href="/language/{{ language | slugify }}/" class="text-indigo-400 hover:underline">
                         {{ language }}
                     </a>
                 </p>
-                
-                {# ⭐️⭐️⭐️ මෙන්න වෙනස් කරපු තැන ⭐️⭐️⭐️ #}
                 <p><strong>Category:</strong> 
                     <a href="/category/{{ category | slugify }}/" class="text-indigo-400 hover:underline">
                         {{ category }}
                     </a>
                 </p>
             </div>
-
             {% if tags %}
                 <div class="tags-container flex flex-wrap gap-2">
                     {% for tag in tags %}
@@ -63,61 +54,72 @@
     </div>
 
     <section class="video-section grid grid-cols-1 {% if youtube_song and youtube_karaoke %}md:grid-cols-2{% endif %} gap-8 mb-12">
-        
         {% if youtube_song %}
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Official Song</h2>
                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                    <iframe 
-                        src="https://www.youtube.com/embed/{{ youtube_song | youtubeEmbedUrl }}" 
-                        title="YouTube video player for {{ title }}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen
-                        class="w-full h-full"
-                    ></iframe>
+                    <iframe src="https://www.youtube.com/embed/{{ youtube_song | youtubeEmbedUrl }}" title="YouTube video player for {{ title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
         {% endif %}
-
         {% if youtube_karaoke %}
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Karaoke Version</h2>
                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                    <iframe 
-                        src="https://www.youtube.com/embed/{{ youtube_karaoke | youtubeEmbedUrl }}" 
-                        title="YouTube karaoke video for {{ title }}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen
-                        class="w-full h-full"
-                    ></iframe>
+                    <iframe src="https://www.youtube.com/embed/{{ youtube_karaoke | youtubeEmbedUrl }}" title="YouTube karaoke video for {{ title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
         {% endif %}
     </section>
 
-    {% if story %}
+    {% if music_theory %}
     <hr class="border-slate-800 mb-12">
     <div class="story-content max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-white mb-4">About the Song</h2>
+        <h2 class="text-3xl font-bold text-white mb-4">Music Guide</h2>
         <div class="prose prose-lg prose-invert">
-            {{ story | markdownify | safe }}
+            {{ music_theory | markdownify | safe }}
         </div>
     </div>
     {% endif %}
 
+    {% if analysis %}
+    <hr class="border-slate-800 mb-12">
+    <div class="story-content max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-4">About the Song</h2>
+        <div class="prose prose-lg prose-invert">
+            {{ analysis | markdownify | safe }}
+        </div>
+    </div>
+    {% endif %}
 </article>
 
 <style>
     @supports (aspect-ratio: 16 / 9) {
-        .aspect-w-16 {
-            aspect-ratio: 16 / 9;
-        }
-        .aspect-h-9 {
-            height: auto;
-        }
+        .aspect-w-16 { aspect-ratio: 16 / 9; }
+        .aspect-h-9 { height: auto; }
     }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicComposition",
+  "name": "{{ title }}",
+  "lyricist": { "@type": "Person", "name": "{{ writer }}" },
+  "composer": { "@type": "Person", "name": "{{ music }}" },
+  "inLanguage": "{{ language | lower }}",
+  "genre": "{{ category }}",
+  "lyrics": {
+    "@type": "CreativeWork",
+    "text": "{{ content | striptags | safe | trim }}"
+  },
+  "datePublished": "{{ date | isoDate }}",
+  "byArtist": {
+    "@type": "MusicGroup",
+    "name": "{{ singer }}"
+  },
+  "description": "{{ analysis | truncate }}"
+}
+</script>
 
 {% endblock %}

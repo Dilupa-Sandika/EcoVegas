@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="/css/style.css">
+
+    {# ⭐️⭐️⭐️ SEO Meta Description (අලුතෙන් එකතු කළේ) ⭐️⭐️⭐️ #}
+    <meta name="description" content="{{ analysis | default(title, true) | truncate }}">
 </head>
 <body class="bg-slate-900 text-slate-200 font-sans antialiased">
 
@@ -18,14 +21,10 @@
             <a href="/" class="text-2xl font-black text-white tracking-tight">
                 <span class="text-indigo-400">Echo</span>Lyrics
             </a>
-            </nav>
+        </nav>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        {# 
-          මෙතන තමයි වැදගත්ම වෙනස. 
-          අපි 'content' කියලා block එකක් හැදුවා. 
-        #}
         {% block content %}
           {{ content | safe }}
         {% endblock %}

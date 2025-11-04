@@ -5,12 +5,12 @@ const slugify = require("@sindresorhus/slugify");
 module.exports = function(eleventyConfig) {
 
   // =================================================================
-  // FILTERS (Youtube, Markdown, Slugify)
+  // FILTERS
   // =================================================================
   eleventyConfig.addFilter("youtubeEmbedUrl", (url) => {
     if (!url) return "";
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
+    const match = url.match(RegExp);
     return (match && match[2].length === 11) ? match[2] : null;
   });
 
@@ -18,19 +18,47 @@ module.exports = function(eleventyConfig) {
     html: true,
   });
   eleventyConfig.addFilter("markdownify", (content) => {
+    if (!content) return "";
     return md.render(content);
   });
 
   eleventyConfig.addFilter("slugify", (str) => {
-    if (!str) {
-      return;
-    }
+    if (!str) return "";
     return slugify(str, {
       lower: true,
       strict: true,
       remove: /[*+~.()'"!:@]/g
     });
   });
+
+  // ⭐️⭐️⭐️ SEO FILTERS (අලුතෙන් එකතු කළේ) ⭐️⭐️⭐️
+  
+  // Date එක ISO format (YYYY-MM-DD) එකට හරවන්න
+  eleventyConfig.addFilter("isoDate", (dateObj) => {
+    if (!dateObj) return "";
+    try {
+      return new Date(dateObj).toISOString().split('T')[0];
+    } catch (e) {
+      console.error(`Error formatting date ${dateObj}:`, e);
+      return "";
+    }
+  });
+
+  // HTML tags අයින් කරලා text එකක් truncate කරන්න
+  eleventyConfig.addFilter("truncate", (str, len = 150) => {
+    if (!str) return "";
+    let s = str.replace(/(<([^>]+)>)/ig, ''); // Remove HTML tags
+    s = s.replace(/\s+/g, ' ').trim(); // Remove extra whitespace
+    if (s.length <= len) return s;
+    return s.slice(0, len) + "...";
+  });
+  
+  // HTML tags අයින් කරන්න
+  eleventyConfig.addFilter("striptags", (str) => {
+    if (!str) return "";
+    return str.replace(/(<([^>]+)>)/ig, '').replace(/\s+/g, ' ').trim();
+  });
+
 
   // =================================================================
   // COLLECTIONS
@@ -45,9 +73,7 @@ module.exports = function(eleventyConfig) {
     posts.forEach((post) => {
       const singerName = post.data.singer;
       if (!singerName) return;
-      if (!singers[singerName]) {
-        singers[singerName] = [];
-      }
+      if (!singers[singerName]) singers[singerName] = [];
       singers[singerName].push(post);
     });
     return Object.keys(singers).map((singerName) => {
@@ -58,19 +84,13 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // ⭐️⭐️⭐️ අලුතෙන් එකතු කළේ ⭐️⭐️⭐️
-  // =================================================================
-  // SONGS BY LANGUAGE COLLECTION
-  // =================================================================
   eleventyConfig.addCollection("songsByLanguage", (collectionApi) => {
     const posts = collectionApi.getFilteredByGlob("posts/**/*.md");
     const languages = {};
     posts.forEach((post) => {
       const languageName = post.data.language;
       if (!languageName) return;
-      if (!languages[languageName]) {
-        languages[languageName] = [];
-      }
+      if (!languages[languageName]) languages[languageName] = [];
       languages[languageName].push(post);
     });
     return Object.keys(languages).map((languageName) => {
@@ -81,19 +101,13 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // ⭐️⭐️⭐️ අලුතෙන් එකතු කළේ ⭐️⭐️⭐️
-  // =================================================================
-  // SONGS BY CATEGORY COLLECTION
-  // =================================================================
   eleventyConfig.addCollection("songsByCategory", (collectionApi) => {
     const posts = collectionApi.getFilteredByGlob("posts/**/*.md");
     const categories = {};
     posts.forEach((post) => {
       const categoryName = post.data.category;
       if (!categoryName) return;
-      if (!categories[categoryName]) {
-        categories[categoryName] = [];
-      }
+      if (!categories[categoryName]) categories[categoryName] = [];
       categories[categoryName].push(post);
     });
     return Object.keys(categories).map((categoryName) => {
