@@ -10,7 +10,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("youtubeEmbedUrl", (url) => {
     if (!url) return "";
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(RegExp);
+    const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   });
 
@@ -31,29 +31,26 @@ module.exports = function(eleventyConfig) {
     });
   });
 
-  // ⭐️⭐️⭐️ SEO FILTERS (අලුතෙන් එකතු කළේ) ⭐️⭐️⭐️
-  
-  // Date එක ISO format (YYYY-MM-DD) එකට හරවන්න
+  // SEO FILTERS
   eleventyConfig.addFilter("isoDate", (dateObj) => {
     if (!dateObj) return "";
     try {
-      return new Date(dateObj).toISOString().split('T')[0];
+      const date = new Date(dateObj + 'T00:00:00Z');
+      return date.toISOString().split('T')[0];
     } catch (e) {
       console.error(`Error formatting date ${dateObj}:`, e);
       return "";
     }
   });
 
-  // HTML tags අයින් කරලා text එකක් truncate කරන්න
   eleventyConfig.addFilter("truncate", (str, len = 150) => {
     if (!str) return "";
-    let s = str.replace(/(<([^>]+)>)/ig, ''); // Remove HTML tags
-    s = s.replace(/\s+/g, ' ').trim(); // Remove extra whitespace
+    let s = str.replace(/(<([^>]+)>)/ig, '');
+    s = s.replace(/\s+/g, ' ').trim();
     if (s.length <= len) return s;
     return s.slice(0, len) + "...";
   });
   
-  // HTML tags අයින් කරන්න
   eleventyConfig.addFilter("striptags", (str) => {
     if (!str) return "";
     return str.replace(/(<([^>]+)>)/ig, '').replace(/\s+/g, ' ').trim();
@@ -119,10 +116,13 @@ module.exports = function(eleventyConfig) {
   });
 
   // =================================================================
-  // PASSTHROUGH COPY
+  // PASSTHROUGH COPY - COMPREHENSIVE FOR ALL IMAGES
   // =================================================================
   eleventyConfig.addPassthroughCopy("posts/**/*.{jpg,jpeg,png,gif,webp,svg}");
-
+  eleventyConfig.addPassthroughCopy("posts/**/*.{JPG,JPEG,PNG,GIF,WEBP,SVG}");
+  eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPassthroughCopy("src/**/*.{jpg,jpeg,png,gif,webp,svg}");
 
   // =================================================================
   // ELEVENTY CONFIGURATION RETURN

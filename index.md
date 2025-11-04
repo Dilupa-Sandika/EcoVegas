@@ -29,28 +29,28 @@ title: "Home"
 <div id="songList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {%- for post in collections.posts -%}
     <div class="song-item group" data-title="{{ post.data.title | lower }}" data-singer="{{ post.data.singer | lower }}" data-lang="{{ post.data.language | lower }}">
-        <div class="block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02]">
+        <div class="song-card block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02] h-full flex flex-col">
             
-            <a href="{{ post.url | url }}">
-                <div class="w-full h-48 sm:h-56 relative">
-                    {# ⭐️⭐️⭐️ IMAGE PATH FIX ⭐️⭐️⭐️ #}
+            <a href="{{ post.url | url }}" class="flex-shrink-0">
+                <div class="image-container w-full aspect-square overflow-hidden"> {# ⭐️ PERFECT SQUARE CONTAINER ⭐️ #}
                     <img 
-                        src="{{ (post.url | url ~ '../' ~ (post.data.cover_image | default('cover.jpg'))) | url }}"
+                        src="/posts/{{ post.data.cover_image | default('cover.jpg') }}"
                         alt="{{ post.data.title }} Album Art" 
                         class="w-full h-full object-cover"
+                        onerror="this.src='/posts/cover.jpg'"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                     </div>
                 </div>
             </a>
 
-            <div class="p-4">
+            <div class="song-info p-4 flex-grow flex flex-col justify-center min-h-[80px]"> {# ⭐️ GUARANTEED TEXT SPACE ⭐️ #}
                 <a href="{{ post.url | url }}">
-                    <h3 class="text-xl font-bold text-white truncate group-hover:text-indigo-400 transition-colors">{{ post.data.title }}</h3>
+                    <h3 class="text-lg font-bold text-white truncate group-hover:text-indigo-400 transition-colors mb-1">{{ post.data.title }}</h3>
                 </a>
-                <a href="/singers/{{ post.data.singer | slugify }}/" class="text-slate-400 truncate hover:text-indigo-400 hover:underline">
+                <a href="/singers/{{ post.data.singer | slugify }}/" class="text-slate-400 truncate hover:text-indigo-400 hover:underline text-sm">
                     {{ post.data.singer }}
                 </a>
             </div>
@@ -63,7 +63,6 @@ title: "Home"
     <h2 class="text-2xl font-bold text-slate-500">No songs found.</h2>
     <p class="text-slate-600">Try adjusting your search or filter.</p>
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

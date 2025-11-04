@@ -5,7 +5,12 @@ writer: "Taylor Swift"
 music: "Taylor Swift"
 category: "Country Pop"
 language: "English"
-tags: ["romance", "fairytale", "pop", "country"]
+cover_image: "love-story/cover.jpg"
+tags: 
+  - "romance"
+  - "fairytale"
+  - "pop"
+  - "country"
 youtube_song: "https://www.youtube.com/watch?v=8xg3vE8Ie_E"
 youtube_karaoke: "https://www.youtube.com/watch?v=kFloBAJHd-E"
 date: 2025-10-29
@@ -14,8 +19,6 @@ story: |
   
   Written from the perspective of Juliet, the song narrates a tale of forbidden love that ultimately receives a father's blessing. It became a global phenomenon, marking her transition from a country artist to a mainstream pop superstar.
 ---
-{# ⭐️⭐️⭐️ '---' වලින් පස්සේ තියෙන්නේ Lyrics විතරයි ⭐️⭐️⭐️ #}
-{# ⭐️⭐️⭐️ '## පද රචනය' වගේ Headings මෙතන දාන්න එපා ⭐️⭐️⭐️ #}
 
 (Verse 1)
 We were both young when I first saw you

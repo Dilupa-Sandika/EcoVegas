@@ -7,7 +7,7 @@
     "watch:eleventy": "eleventy --serve",
     "watch:css": "tailwindcss -i ./src/input.css -o ./_site/css/style.css --watch",
     "start": "concurrently \"npm:watch:css\" \"npm:watch:eleventy\"",
-    "build": "NODE_ENV=production eleventy && NODE_ENV=production tailwindcss -i ./src/input.css -o ./_site/css/style.css --minify"
+    "build": "set NODE_ENV=production && eleventy && tailwindcss -i ./src/input.css -o ./_site/css/style.css --minify"
   },
   "keywords": [
     "lyrics",
