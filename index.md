@@ -32,21 +32,22 @@ title: "Home"
         <div class="song-card block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02] h-full flex flex-col">
             
             <a href="{{ post.url | url }}" class="flex-shrink-0">
-                <div class="image-container w-full h-40 sm:h-48 md:h-52 overflow-hidden"> {# ⭐️ RECTANGULAR ON MOBILE ⭐️ #}
+                <div class="image-container w-full h-40 sm:h-48 md:h-52 overflow-hidden relative">
                     <img 
                         src="/posts/{{ post.data.cover_image | default('cover.jpg') }}"
                         alt="{{ post.data.title }} Album Art" 
                         class="w-full h-full object-cover"
-                        onerror="this.src='/posts/cover.jpg'"
+                        loading="lazy"
+                        data-src="/posts/{{ post.data.cover_image | default('cover.jpg') }}"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div> {# ⭐️ DARKER GRADIENT ⭐️ #}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                     </div>
                 </div>
             </a>
 
-            <div class="song-info p-4 flex-grow flex flex-col justify-center bg-slate-800/80 backdrop-blur-sm"> {# ⭐️ BETTER TEXT BACKGROUND ⭐️ #}
+            <div class="song-info p-4 flex-grow flex flex-col justify-center bg-slate-800/80 backdrop-blur-sm">
                 <a href="{{ post.url | url }}">
                     <h3 class="text-lg font-bold text-white truncate group-hover:text-indigo-400 transition-colors mb-1">{{ post.data.title }}</h3>
                 </a>
@@ -71,6 +72,30 @@ title: "Home"
         const songList = document.getElementById('songList');
         const songItems = songList.querySelectorAll('.song-item');
         const noResults = document.getElementById('noResults');
+
+        // ⭐️⭐️⭐️ FIXED IMAGE ERROR HANDLING ⭐️⭐️⭐️
+        function handleImageError(img) {
+            // Only try once to prevent infinite loops
+            if (!img.dataset.retried) {
+                img.dataset.retried = true;
+                // Create a simple colored background instead of trying another image
+                img.style.display = 'none';
+                const parent = img.parentElement;
+                const fallback = document.createElement('div');
+                fallback.className = 'w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center';
+                fallback.innerHTML = '<span class="text-white font-bold text-lg">🎵</span>';
+                parent.appendChild(fallback);
+            }
+        }
+
+        // Attach error handlers to all images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', () => handleImageError(img));
+            img.addEventListener('load', () => {
+                // Image loaded successfully
+                img.style.opacity = '1';
+            });
+        });
 
         function filterSongs() {
             const searchTerm = searchInput.value.toLowerCase();

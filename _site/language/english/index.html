@@ -36,46 +36,72 @@
 <div id="songList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"><div class="song-item group">
         <div class="song-card block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02] h-full flex flex-col">
             <a href="/posts/love-story/" class="flex-shrink-0">
-                <div class="image-container w-full aspect-square overflow-hidden">
+                <div class="image-container w-full h-40 sm:h-48 md:h-52 overflow-hidden relative">
                     <img 
                         src="/posts/love-story/cover.jpg"
                         alt="Love Story Album Art" 
                         class="w-full h-full object-cover"
-                        onerror="this.src='/posts/cover.jpg'"
+                        loading="lazy"
+                        data-src="/posts/love-story/cover.jpg"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                     </div>
                 </div>
             </a>
-            <div class="song-info p-4 flex-grow flex flex-col justify-center min-h-[80px]">
+            <div class="song-info p-4 flex-grow flex flex-col justify-center bg-slate-800/80 backdrop-blur-sm">
                 <h3 class="text-lg font-bold text-white truncate group-hover:text-indigo-400 transition-colors mb-1">Love Story</h3>
-                <p class="text-slate-400 truncate text-sm">Taylor Swift</p>
+                <p class="text-slate-300 truncate text-sm">Taylor Swift</p>
             </div>
         </div>
     </div><div class="song-item group">
         <div class="song-card block bg-slate-800 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-indigo-500/20 hover:scale-[1.02] h-full flex flex-col">
             <a href="/posts/9-to-5/" class="flex-shrink-0">
-                <div class="image-container w-full aspect-square overflow-hidden">
+                <div class="image-container w-full h-40 sm:h-48 md:h-52 overflow-hidden relative">
                     <img 
                         src="/posts/9-to-5/cover.jpg"
                         alt="9 to 5 Album Art" 
                         class="w-full h-full object-cover"
-                        onerror="this.src='/posts/cover.jpg'"
+                        loading="lazy"
+                        data-src="/posts/9-to-5/cover.jpg"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
                     </div>
                 </div>
             </a>
-            <div class="song-info p-4 flex-grow flex flex-col justify-center min-h-[80px]">
+            <div class="song-info p-4 flex-grow flex flex-col justify-center bg-slate-800/80 backdrop-blur-sm">
                 <h3 class="text-lg font-bold text-white truncate group-hover:text-indigo-400 transition-colors mb-1">9 to 5</h3>
-                <p class="text-slate-400 truncate text-sm">Dolly Parton</p>
+                <p class="text-slate-300 truncate text-sm">Dolly Parton</p>
             </div>
         </div>
     </div></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ⭐️⭐️⭐️ FIXED IMAGE ERROR HANDLING FOR LANGUAGE PAGE ⭐️⭐️⭐️
+        function handleImageError(img) {
+            // Only try once to prevent infinite loops
+            if (!img.dataset.retried) {
+                img.dataset.retried = true;
+                // Create a simple colored background instead of trying another image
+                img.style.display = 'none';
+                const parent = img.parentElement;
+                const fallback = document.createElement('div');
+                fallback.className = 'w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center';
+                fallback.innerHTML = '<span class="text-white font-bold text-lg">🎵</span>';
+                parent.appendChild(fallback);
+            }
+        }
+
+        // Attach error handlers to all images on this page
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', () => handleImageError(img));
+        });
+    });
+</script>
 
 
     </main>
