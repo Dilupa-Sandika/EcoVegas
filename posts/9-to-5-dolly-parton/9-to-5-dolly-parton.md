@@ -6,7 +6,7 @@ music: "Dolly Parton"
 category: "Film Song"
 language: "English"
 tags: ["Workplace Anthem", "Feminism", "80s Pop", "Movie Soundtrack"]
-image: "9-to-5-dolly-parton/cover.jpg"
+cover_image: "9-to-5-dolly-parton/cover.jpg"
 youtube_song: "https://www.youtube.com/watch?v=UbxUSsFXYo4"
 youtube_karaoke: "https://www.youtube.com/watch?v=kYmU69a5pMA"
 date: 2025-11-05

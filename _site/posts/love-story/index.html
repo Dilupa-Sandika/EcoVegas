@@ -35,12 +35,12 @@
                 src="/posts/love-story/cover.jpg"
                 alt="Love Story Album Art" 
                 class="w-full rounded-lg shadow-2xl object-cover aspect-square"
-                onerror="this.src='/posts/cover.jpg'"
             >
         </div>
         <div class="md:w-2/3 flex flex-col justify-center">
             <h1 class="post-title text-4xl lg:text-6xl font-black text-white mb-4">Love Story</h1>
-            <div class="post-meta grid grid-cols-2 gap-x-4 gap-y-2 text-lg mb-6">
+           
+             <div class="post-meta grid grid-cols-2 gap-x-4 gap-y-2 text-lg mb-6">
                 <p><strong>Singer:</strong> 
                     <a href="/singers/taylor-swift/" class="text-indigo-400 hover:underline">
                         Taylor Swift
@@ -54,13 +54,13 @@
                     </a>
                 </p>
                 <p><strong>Category:</strong> 
-                    <a href="/category/country-pop/" class="text-indigo-400 hover:underline">
+                   <a href="/category/country-pop/" class="text-indigo-400 hover:underline">
                         Country Pop
                     </a>
                 </p>
             </div>
             
-                <div class="tags-container flex flex-wrap gap-2">
+                 <div class="tags-container flex flex-wrap gap-2">
                     
                         <span class="tag bg-slate-800 text-indigo-300 text-sm font-medium px-3 py-1 rounded-full">romance</span>
                     
@@ -70,7 +70,7 @@
                     
                         <span class="tag bg-slate-800 text-indigo-300 text-sm font-medium px-3 py-1 rounded-full">country</span>
                     
-                </div>
+                 </div>
             
         </div>
     </header>
@@ -138,14 +138,14 @@ Oh, oh, oh
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Official Song</h2>
                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                    <iframe src="https://www.youtube.com/embed/8xg3vE8Ie_E" title="YouTube video player for Love Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                     <iframe src="https://www.youtube.com/embed/8xg3vE8Ie_E" title="YouTube video player for Love Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
         
         
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Karaoke Version</h2>
-                <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
                     <iframe src="https://www.youtube.com/embed/kFloBAJHd-E" title="YouTube karaoke video for Love Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
@@ -184,6 +184,34 @@ Oh, oh, oh
   },
   "description": ""
 }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        function handleImageError(img) {
+            // Only try once to prevent loops
+            if (!img.dataset.retried) {
+                img.dataset.retried = true;
+                img.style.display = 'none'; // Hide the broken image
+                const parent = img.parentElement;
+                
+                // Create a cool fallback background
+                const fallback = document.createElement('div');
+                fallback.className = 'w-full rounded-lg shadow-2xl object-cover aspect-square bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center';
+                fallback.innerHTML = '<span class="text-white font-bold text-4xl">🎵</span>';
+                
+                if (parent) {
+                    parent.appendChild(fallback);
+                }
+            }
+        }
+
+        // Attach this handler to all images inside the article
+        document.querySelectorAll('.post-layout img').forEach(img => {
+            img.addEventListener('error', () => handleImageError(img));
+        });
+    });
 </script>
 
 

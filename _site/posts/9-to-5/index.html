@@ -35,12 +35,12 @@
                 src="/posts/9-to-5/cover.jpg"
                 alt="9 to 5 Album Art" 
                 class="w-full rounded-lg shadow-2xl object-cover aspect-square"
-                onerror="this.src='/posts/cover.jpg'"
             >
         </div>
         <div class="md:w-2/3 flex flex-col justify-center">
             <h1 class="post-title text-4xl lg:text-6xl font-black text-white mb-4">9 to 5</h1>
-            <div class="post-meta grid grid-cols-2 gap-x-4 gap-y-2 text-lg mb-6">
+           
+             <div class="post-meta grid grid-cols-2 gap-x-4 gap-y-2 text-lg mb-6">
                 <p><strong>Singer:</strong> 
                     <a href="/singers/dolly-parton/" class="text-indigo-400 hover:underline">
                         Dolly Parton
@@ -54,13 +54,13 @@
                     </a>
                 </p>
                 <p><strong>Category:</strong> 
-                    <a href="/category/film-song/" class="text-indigo-400 hover:underline">
+                   <a href="/category/film-song/" class="text-indigo-400 hover:underline">
                         Film Song
                     </a>
                 </p>
             </div>
             
-                <div class="tags-container flex flex-wrap gap-2">
+                 <div class="tags-container flex flex-wrap gap-2">
                     
                         <span class="tag bg-slate-800 text-indigo-300 text-sm font-medium px-3 py-1 rounded-full">Workplace Anthem</span>
                     
@@ -70,7 +70,7 @@
                     
                         <span class="tag bg-slate-800 text-indigo-300 text-sm font-medium px-3 py-1 rounded-full">Feminism</span>
                     
-                </div>
+                 </div>
             
         </div>
     </header>
@@ -131,14 +131,14 @@ It's enough to drive you crazy if you let it</p>
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Official Song</h2>
                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                    <iframe src="https://www.youtube.com/embed/UbxUSsFXYo4" title="YouTube video player for 9 to 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                     <iframe src="https://www.youtube.com/embed/UbxUSsFXYo4" title="YouTube video player for 9 to 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
         
         
             <div class="video-container">
                 <h2 class="text-2xl font-bold text-white mb-4">Karaoke Version</h2>
-                <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                 <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
                     <iframe src="https://www.youtube.com/embed/Dqs8i5p4b8U" title="YouTube karaoke video for 9 to 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
                 </div>
             </div>
@@ -150,7 +150,7 @@ It's enough to drive you crazy if you let it</p>
     <div class="story-content max-w-3xl mx-auto">
         <h2 class="text-3xl font-bold text-white mb-4">Music Guide</h2>
         <div class="prose prose-lg prose-invert">
-            <ul>
+             <ul>
 <li><strong>Key:</strong> E Major (E)</li>
 <li><strong>Tempo:</strong> 105 BPM (Beats Per Minute)</li>
 <li><strong>Main Chords:</strong> E, A, B</li>
@@ -200,6 +200,34 @@ It's enough to drive you crazy if you let it</p>
   },
   "description": "Released in 1980, &quot;9 to 5&quot; is an iconic anthem written and performed by Dolly Parton for the comedy film of the same name. The song masterfully blends..."
 }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        function handleImageError(img) {
+            // Only try once to prevent loops
+            if (!img.dataset.retried) {
+                img.dataset.retried = true;
+                img.style.display = 'none'; // Hide the broken image
+                const parent = img.parentElement;
+                
+                // Create a cool fallback background
+                const fallback = document.createElement('div');
+                fallback.className = 'w-full rounded-lg shadow-2xl object-cover aspect-square bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center';
+                fallback.innerHTML = '<span class="text-white font-bold text-4xl">🎵</span>';
+                
+                if (parent) {
+                    parent.appendChild(fallback);
+                }
+            }
+        }
+
+        // Attach this handler to all images inside the article
+        document.querySelectorAll('.post-layout img').forEach(img => {
+            img.addEventListener('error', () => handleImageError(img));
+        });
+    });
 </script>
 
 
